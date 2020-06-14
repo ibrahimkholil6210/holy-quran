@@ -1,6 +1,6 @@
 import React from 'react';
 import Styled from 'styled-components';
-import styled from 'styled-components';
+import { SolarSystemLoading } from 'react-loadingg';
 
 const StyledDiv = Styled.div`
     overflow: scroll;
@@ -26,6 +26,19 @@ const StyledHeading = Styled.h3`
     text-transform: uppercase;
 `;
 
+const FlexContainerDiv = Styled.div`
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center; 
+
+    h1{
+        font-size 25px;
+        font-weight: bold;
+        text-align: center;
+    }
+`;
+
 
 export default function SurahList({ listSurah, isLoading, click }) {
 
@@ -36,7 +49,9 @@ export default function SurahList({ listSurah, isLoading, click }) {
             );
         })
     ) : (
-            <div>Loading Data From Server</div>
+            <FlexContainerDiv>
+                <SolarSystemLoading color="#000000" />
+            </FlexContainerDiv>
         );
 
 

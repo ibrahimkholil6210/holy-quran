@@ -21,6 +21,7 @@ export default class App extends Component {
     loadingSurahList: true,
     loadingSingleSurah: null,
     singleSurah: null,
+    isAudioPlaying: false,
   }
 
   getSingleSurahHandler = async (num) => {
@@ -30,6 +31,36 @@ export default class App extends Component {
     this.setState({ loadingSingleSurah: false, singleSurah: surah.data });
   }
 
+  getAudioHandler = async (aid, vid) => {
+    this.setState({ isAudioPlaying: true });
+    const audioIndex = await axios.get(`https://raw.githubusercontent.com/ibrahimkholil6210/quranjson/master/source/audio/${aid}/index.json`);
+    const audioIndexToStore = audioIndex.data.verse;
+    const audioFileName = audioIndexToStore[vid].file;
+
+    const ctx = new AudioContext();
+    let audio;
+
+    const audioData = await axios({
+      method: 'get',
+      url: `https://raw.githubusercontent.com/ibrahimkholil6210/quranjson/master/source/audio/${aid}/${audioFileName}`,
+      responseType: 'arraybuffer'
+    });
+
+    const aBfr = ctx.decodeAudioData(audioData.data);
+    aBfr.then(data => {
+      audio = data;
+      const playSound = ctx.createBufferSource();
+      playSound.buffer = audio;
+      playSound.connect(ctx.destination);
+      playSound.start(ctx.currentTime);
+
+      playSound.addEventListener('ended', () => {
+        this.setState({ isAudioPlaying: false });
+      })
+
+    });
+
+  }
 
   async componentDidMount() {
     const getSurah = await axios.get('https://raw.githubusercontent.com/ibrahimkholil6210/quranjson/master/source/surah.json');
@@ -48,7 +79,7 @@ export default class App extends Component {
                     <SurahList listSurah={this.state.listSurah} isLoading={this.state.loadingSurahList} click={this.getSingleSurahHandler} />
                   </div>
                   <div className="col-md-8">
-                    <SingleSurah loadingSingleSurah={this.state.loadingSingleSurah} singleSurah={this.state.singleSurah} />
+                    <SingleSurah loadingSingleSurah={this.state.loadingSingleSurah} isAudioPlaying={this.state.isAudioPlaying} singleSurah={this.state.singleSurah} getAudioOnClick={this.getAudioHandler} />
                   </div>
                 </div>
               </StyledMainDiv>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Styled from 'styled-components';
+import { SolarSystemLoading } from 'react-loadingg';
 
 
 const StyledDiv = Styled.div`
@@ -48,16 +49,31 @@ const StyledSpan = Styled.span`
     line-height: 40px;
 `;
 
+const FlexContainerDiv = Styled.div`
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center; 
+
+    h1{
+        font-size 25px;
+        font-weight: bold;
+        text-align: center;
+    }
+`;
 
 
-export default function SingleSura({ loadingSingleSurah, singleSurah }) {
+
+export default function SingleSura({ loadingSingleSurah, singleSurah, getAudioOnClick, isAudioPlaying }) {
 
     let Layout = null;
     let LayoutTitle = null;
     if (loadingSingleSurah === null) {
         Layout = (
             <>
-                <h1>Please Select a Surah Form Surah List</h1>
+                <FlexContainerDiv>
+                    <h1>Please Select a Surah Form Surah List</h1>
+                </FlexContainerDiv>
             </>
         );
     }
@@ -65,7 +81,9 @@ export default function SingleSura({ loadingSingleSurah, singleSurah }) {
     if (loadingSingleSurah === true) {
         Layout = (
             <>
-                <h1>Please Wait We Are Fetching Data For You!</h1>
+                <FlexContainerDiv>
+                    <SolarSystemLoading color="#000000" />
+                </FlexContainerDiv>
             </>
         );
     }
@@ -87,9 +105,9 @@ export default function SingleSura({ loadingSingleSurah, singleSurah }) {
             <>
                 <div className="list-group">
                     {
-                        lineOfSurah.map((line, index) => {
+                        lineOfSurah.map((line, index, ) => {
                             return (
-                                <StyledList className="list-group-item" key={index}>{surahData[line]} <StyledSpan>{++index}</StyledSpan></StyledList>
+                                <StyledList className="list-group-item" key={index} onClick={() => { return !isAudioPlaying ? getAudioOnClick(singleSurah.index, line) : '' }}>{surahData[line]} <StyledSpan>{++index}</StyledSpan></StyledList>
                             );
                         })
                     }
@@ -102,9 +120,7 @@ export default function SingleSura({ loadingSingleSurah, singleSurah }) {
         <div>
             <StyledDiv>
                 {LayoutTitle}
-                <div className="list-group">
-                    {Layout}
-                </div>
+                {Layout}
             </StyledDiv>
         </div>
     )
