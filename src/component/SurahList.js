@@ -39,13 +39,36 @@ const FlexContainerDiv = Styled.div`
     }
 `;
 
+const StyledButton = Styled.button`
+    font-wight: bold;
+    font-size: 18px;
+    border-radius: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    :focus{
+        outline: none;
+        border-radius: 0px;
+    }
+    &.active{
+        background-color: #000000;
+        border: 1px solid #000000;
+        border-radius: 0px;
+    }
+`;
 
-export default function SurahList({ listSurah, isLoading, click }) {
+
+export default function SurahList({ listSurah, isLoading, click, isActiveBtn }) {
 
     const Layout = !isLoading ? (
         listSurah.map((surah, index) => {
             return (
-                <button key={surah.index} onClick={() => click(index + 1)} type="button" className="list-group-item list-group-item-action">{surah.title}</button>
+                <StyledButton
+                    key={surah.index}
+                    onClick={() => click(index + 1)}
+                    type="button"
+                    className={isActiveBtn === index ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'}>
+                    {surah.title}
+                </StyledButton>
             );
         })
     ) : (
@@ -57,13 +80,15 @@ export default function SurahList({ listSurah, isLoading, click }) {
 
 
     return (
-        <StyledDiv>
-            <StyledHeaderDiv>
-                <StyledHeading>Holy Quran Surah</StyledHeading>
-            </StyledHeaderDiv>
-            <div className="list-group">
-                {Layout}
-            </div>
-        </StyledDiv>
+        <div className="col-md-4">
+            <StyledDiv>
+                <StyledHeaderDiv>
+                    <StyledHeading>Holy Quran Surah</StyledHeading>
+                </StyledHeaderDiv>
+                <div className="list-group">
+                    {Layout}
+                </div>
+            </StyledDiv>
+        </div>
     )
 }

@@ -32,6 +32,8 @@ const StyledList = Styled.li`
     position: relative;
     padding-right: 54px;
     font-weight: 900;
+    cursor: pointer;
+    font-size: 18px;
 `;
 
 const StyledSpan = Styled.span`
@@ -117,7 +119,7 @@ export default function SingleSura({ loadingSingleSurah, singleSurah, getAudioOn
     }
 
     return (
-        <div>
+        <div className="col-md-8">
             <StyledDiv>
                 {LayoutTitle}
                 {Layout}
