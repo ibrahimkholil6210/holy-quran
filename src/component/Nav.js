@@ -90,7 +90,7 @@ export default function Nav(props) {
                     </StyledUl>
                     <StyledSearch className="searchForm" isSearchExpand={props.isSearchExpand}>
                         <StyledForm className="form-inline my-2 my-lg-0" onSubmit={(e) => e.preventDefault()}>
-                            <StyledInput className="form-control mr-sm-2" type="search" placeholder="Which surah are you looking for?" aria-label="Search" />
+                            <StyledInput className="form-control mr-sm-2" type="search" placeholder="Which surah are you looking for?" />
                             <StyledButton type="submit" onClick={props.toggleSearchHandler}><FiXCircle /></StyledButton>
                         </StyledForm>
                     </StyledSearch>
